@@ -1,3 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# JetBrains
+.idea/
+
+# Git
+.gitattributes
