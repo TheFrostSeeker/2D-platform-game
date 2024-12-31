@@ -1,7 +1,8 @@
-[gd_scene load_steps=42 format=3 uid="uid://bbkxxgf653w77"]
+[gd_scene load_steps=44 format=3 uid="uid://bbkxxgf653w77"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_676lx"]
 [ext_resource type="Texture2D" uid="uid://b74c2cw550fxh" path="res://assets/sprites/knight.png" id="1_ax1er"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_jxyb5"]
+[ext_resource type="FontFile" uid="uid://b24t7afsssog7" path="res://assets/fonts/PixelOperator8.ttf" id="3_p14ow"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m27qs"]
 atlas = ExtResource("1_ax1er")
@@ -18,6 +19,10 @@ region = Rect2(64, 224, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_sgsrv"]
 atlas = ExtResource("1_ax1er")
 region = Rect2(96, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ya6kv"]
+atlas = ExtResource("1_ax1er")
+region = Rect2(0, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uw68s"]
 atlas = ExtResource("1_ax1er")
@@ -172,6 +177,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ya6kv")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_uw68s")
 }, {
 "duration": 1.0,
@@ -301,7 +314,7 @@ radius = 5.0
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
 collision_layer = 3
-script = ExtResource("1_676lx")
+script = ExtResource("1_jxyb5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
@@ -312,3 +325,16 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_waxst")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -38.0
+offset_top = -39.0
+offset_right = 37.0
+offset_bottom = -5.0
+theme_override_fonts/font = ExtResource("3_p14ow")
+theme_override_font_sizes/font_size = 8
+text = "idle"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DurationTimer" type="Timer" parent="."]
