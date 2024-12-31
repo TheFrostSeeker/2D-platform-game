@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://bhv15hwc4xu21"]
 
-[ext_resource type="Script" path="res://scripts/coin.gd" id="1_4leby"]
+[ext_resource type="Script" path="res://scripts/coin.gd" id="1_lhw0o"]
 [ext_resource type="Texture2D" uid="uid://cv08bryi66gwb" path="res://assets/sprites/coin.png" id="1_xm56a"]
 [ext_resource type="AudioStream" uid="uid://73oio8xntfh0" path="res://assets/sounds/coin.wav" id="3_u6ph0"]
 
@@ -199,7 +199,7 @@ _data = {
 
 [node name="Coin" type="Area2D"]
 collision_mask = 2
-script = ExtResource("1_4leby")
+script = ExtResource("1_lhw0o")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_4qifl")

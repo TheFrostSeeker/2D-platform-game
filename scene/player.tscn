@@ -1,7 +1,9 @@
-[gd_scene load_steps=42 format=3 uid="uid://bbkxxgf653w77"]
+[gd_scene load_steps=44 format=3 uid="uid://bbkxxgf653w77"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_676lx"]
 [ext_resource type="Texture2D" uid="uid://b74c2cw550fxh" path="res://assets/sprites/knight.png" id="1_ax1er"]
+[ext_resource type="Script" path="res://scripts/fine_state_machine.gd" id="3_6yjm2"]
+[ext_resource type="Script" path="res://scripts/idle.gd" id="4_627u3"]
+[ext_resource type="Script" path="res://scripts/moving.gd" id="4_fexxt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m27qs"]
 atlas = ExtResource("1_ax1er")
@@ -301,7 +303,6 @@ radius = 5.0
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
 collision_layer = 3
-script = ExtResource("1_676lx")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
@@ -312,3 +313,14 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_waxst")
+
+[node name="FineStateMachine" type="Node" parent="."]
+script = ExtResource("3_6yjm2")
+
+[node name="Idle" type="Node" parent="FineStateMachine"]
+script = ExtResource("4_627u3")
+
+[node name="Moving" type="Node" parent="FineStateMachine"]
+script = ExtResource("4_fexxt")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

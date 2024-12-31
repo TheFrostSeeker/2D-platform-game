@@ -10,10 +10,14 @@ config_version=5
 
 [application]
 
-config/name="First Game"
-run/main_scene="res://scene/lvl1.tscn"
+config/name="2D platform"
+run/main_scene="res://scene/levels/lvl1.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://misc/icon.svg"
+
+[audio]
+
+buses/default_bus_layout="res://misc/default_bus_layout.tres"
 
 [autoload]
 
@@ -22,6 +26,15 @@ Music="*res://scene/music.tscn"
 [dotnet]
 
 project/assembly_name="First Game"
+
+[file_customization]
+
+folder_colors={
+"res://assets/": "red",
+"res://misc/": "yellow",
+"res://scene/": "green",
+"res://scripts/": "blue"
+}
 
 [input]
 
