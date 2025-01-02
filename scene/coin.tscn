@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bhv15hwc4xu21"]
+[gd_scene load_steps=21 format=3 uid="uid://b0u0ms01evp23"]
 
 [ext_resource type="Script" path="res://scripts/coin.gd" id="1_4leby"]
 [ext_resource type="Texture2D" uid="uid://cv08bryi66gwb" path="res://assets/sprites/coin.png" id="1_xm56a"]
@@ -197,7 +197,8 @@ _data = {
 "pickup": SubResource("Animation_7invx")
 }
 
-[node name="Coin" type="Area2D"]
+[node name="Coin" type="Area2D" groups=["collectible"]]
+z_index = 2
 collision_mask = 2
 script = ExtResource("1_4leby")
 

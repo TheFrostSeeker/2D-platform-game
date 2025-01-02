@@ -33,10 +33,10 @@ func _enter_tree(): # Called when the node enters the scene tree.
 func _ready(): # Called when the node and its children are ready.
 	pass
 
-func _notification(what): # Called when the node receives a system notification.
+func _notification(_what): # Called when the node receives a system notification.
 	pass
 
-func _input(event): # Called when the node receives an input event.
+func _input(_event): # Called when the node receives an input event.
 	pass
 
 func _process(_delta: float) -> void: # Called every frame.
@@ -50,12 +50,16 @@ func _physics_process(_delta: float): # Called every physics frame (more precise
 				idle_state()
 			elif velocity.x != 0:
 				run_state()
+				
 			if Input.is_action_just_pressed("roll"):
 				roll_state()
 			if Input.is_action_just_pressed("jump"):
 				jump_state()
 			elif Input.is_action_just_pressed("attack"):
 				attack_state()
+				
+		elif velocity.y < 0:
+			state.JUMP
 		elif velocity.y > 0:
 			fall_state()
 
