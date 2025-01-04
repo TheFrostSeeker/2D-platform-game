@@ -12,7 +12,7 @@ config_version=5
 
 config/name="2D platform"
 run/main_scene="res://scene/lvl1.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://misc/icon.svg"
 
 [audio]
@@ -22,6 +22,13 @@ buses/default_bus_layout="res://misc/default_bus_layout.tres"
 [autoload]
 
 Music="*res://scene/music.tscn"
+
+[display]
+
+window/size/resizable=false
+window/size/window_width_override=1152
+window/size/window_height_override=648
+window/stretch/mode="canvas_items"
 
 [dotnet]
 
