@@ -1,15 +1,15 @@
 [gd_scene load_steps=17 format=3 uid="uid://sejquybbsaw6"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_0lu6h"]
-[ext_resource type="PackedScene" uid="uid://bbkxxgf653w77" path="res://scene/player.tscn" id="1_87byf"]
+[ext_resource type="PackedScene" uid="uid://bbkxxgf653w77" path="res://scene/player/player.tscn" id="1_87byf"]
 [ext_resource type="Texture2D" uid="uid://bvcncx3a7k7vw" path="res://assets/sprites/world_tileset.png" id="2_bvgw5"]
 [ext_resource type="FontFile" uid="uid://wsw1fjgttc0r" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_vqbma"]
-[ext_resource type="PackedScene" uid="uid://c50l535y7ydu7" path="res://scene/platform.tscn" id="3_pa8fj"]
-[ext_resource type="PackedScene" uid="uid://b0u0ms01evp23" path="res://scene/coin.tscn" id="4_67q7e"]
-[ext_resource type="PackedScene" uid="uid://bvhwr3oh62c85" path="res://scene/killzone.tscn" id="5_xiqpg"]
-[ext_resource type="PackedScene" uid="uid://b30rh2mvrpdkq" path="res://scene/green_slime.tscn" id="6_n0645"]
+[ext_resource type="PackedScene" uid="uid://c50l535y7ydu7" path="res://scene/game/platform.tscn" id="3_pa8fj"]
+[ext_resource type="PackedScene" uid="uid://b0u0ms01evp23" path="res://scene/game/coin.tscn" id="4_67q7e"]
+[ext_resource type="PackedScene" uid="uid://bvhwr3oh62c85" path="res://scene/game/killzone.tscn" id="5_xiqpg"]
+[ext_resource type="PackedScene" uid="uid://b30rh2mvrpdkq" path="res://scene/enemies/green_slime.tscn" id="6_n0645"]
 [ext_resource type="FontFile" uid="uid://b24t7afsssog7" path="res://assets/fonts/PixelOperator8.ttf" id="7_nlfhj"]
-[ext_resource type="PackedScene" uid="uid://bpwmeoolx4404" path="res://scene/red_slime.tscn" id="10_yppcj"]
+[ext_resource type="PackedScene" uid="uid://bpwmeoolx4404" path="res://scene/enemies/red_slime.tscn" id="10_yppcj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hkkpk"]
 texture = ExtResource("2_bvgw5")

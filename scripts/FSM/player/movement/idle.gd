@@ -1,23 +1,28 @@
-extends State
-class_name PlayerIdle
+class_name PlayerIdle extends State
 
-func enter():
-	player = get_parent()
-	# Sprite management
-	sprite = player.get_node("AnimatedSprite2D")
-	sprite.play("idle")
-	# Stop movement
-	player.velocity *= Vector2.ZERO
+func enter_state():
+	state_name = "Idle"
+	player.debug.text = "Idle"
 
 func update(_delta):
-	if Input.get_axis("move_right", "move_left"):
-		player.change_state("run")
-		
-	if Input.is_action_just_pressed("jump") and can_jump:
-		player.change_state("jump")
-		
-	if Input.is_action_just_pressed("roll") and can_roll:
-		player.change_state("roll")
+	player.pause_game()
+	player.handle_fall()
+	player.handle_jump()
+	player.handle_roll()
+	player.horizontal_movement()
+	if player.move_direction_x != 0:
+		player.change_state(player.fsm.run)
+	handle_animation()
+	
+func _physics_process(_delta):
+	pass
 
-func exit():
+func handle_animation():
+	player.sprite.play("idle")
+	player.handle_flip()
+
+func draw():
+	pass
+
+func exit_state():
 	pass

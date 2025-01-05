@@ -1,37 +1,30 @@
-extends State
-class_name PlayerJump
+class_name PlayerJump extends State
 
-@export var jump_velocity: float = -325.0
-@export var jump_control: float = 100.0
-
-func enter():
-	player = get_parent()
-	
-	# Sprite management
-	sprite = player.get_node("AnimatedSprite2D")
-	sprite.play("jump")
-	
-	# Jump management
-	player.velocity.y = jump_velocity
-	can_jump = false
-	can_roll = false
+func enter_state():
+	state_name = "Jump"
+	player.debug.text = "Jump"
+	player.velocity.y = player.jump_speed
 
 func update(_delta):
-	# Horizontal movement
-	var direction = Input.get_axis("move_left", "move_right")
-	player.velocity.x = direction * jump_control
+	player.pause_game()
+	player.apply_gravity(_delta)
+	player.horizontal_movement()
+	handle_jump_to_fall()
+	handle_animation()
 	
-	# Idle state
-	if player.velocity.y == 0:
-		can_jump = true
-		player.change_state("idle")
-	
-	if player.is_on_floor() and not can_jump:
-		player.velocity.y = jump_velocity
-		can_jump = false
+func _physics_process(_delta):
+	pass
 
-func _physics_process(delta: float) -> void:
-	player.velocity.y = gravity * delta
+func handle_jump_to_fall():
+	if player.velocity.y >= 0:
+		player.change_state(player.fsm.jump_peak)
 
-func exit():
-	can_roll = true
+func handle_animation():
+	player.sprite.play("jump")
+	player.handle_flip()
+
+func draw():
+	pass
+
+func exit_state():
+	pass

@@ -9,7 +9,6 @@ var direction = 1
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var killzone: Area2D = $Killzone
 @onready var player: CharacterBody2D = $"."
-@onready var area_2d: Area2D = $"../../../Area2D"
 @onready var timer: Timer = $Killzone/Timer
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")

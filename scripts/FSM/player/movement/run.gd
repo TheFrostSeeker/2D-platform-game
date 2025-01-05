@@ -1,28 +1,31 @@
-extends State
-class_name PlayerRun
+class_name PlayerRun extends State
 
-func enter():
-	player = get_parent()
-	# Sprite management
-	sprite = player.get_node("AnimatedSprite2D")
-	sprite.play("run")
+func enter_state():
+	state_name = "Run"
+	player.debug.text = "Run"
 
-func update(_delta):		
-	var direction = Input.get_axis("move_left", "move_right")
-	# Apply movement
-	if direction != 0:
-		player.velocity.x = direction * speed
-	else:
-		player.velocity.x = move_toward(player.velocity.x, 0, speed)
+func update(_delta):
+	player.pause_game()
+	player.horizontal_movement()
+	player.handle_jump()
+	player.handle_roll()
+	player.handle_fall()
+	handle_idle()
+	handle_animation()
 	
-	if player.velocity.x == 0:
-		player.change_state("idle")
-		
-	if Input.is_action_just_pressed("jump") and can_jump:
-		player.change_state("jump")
-		
-	if Input.is_action_just_pressed("roll") and can_roll:
-		player.change_state("roll")
+func _physics_process(_delta):
+	pass
 
-func exit():
+func handle_idle():
+	if player.move_direction_x == 0:
+		player.change_state(player.fsm.idle)
+
+func handle_animation():
+	player.sprite.play("run")
+	player.handle_flip()
+
+func draw():
+	pass
+
+func exit_state():
 	pass

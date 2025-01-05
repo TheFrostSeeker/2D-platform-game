@@ -1,44 +1,34 @@
-extends State
-class_name PlayerRoll
+class_name PlayerRoll extends State
 
-@export var cooldown = 0.533
-@export var roll_cooldown: Timer
-@export var current_player: CharacterBody2D
-
-func enter():
-	current_player = get_parent()
-	roll_cooldown = current_player.get_node("FiniteStateMachine/Roll/RollCooldown")
-	roll_cooldown.wait_time = cooldown
-
-	sprite = current_player.get_node("AnimatedSprite2D")
-	
-	# Initialisation
-	can_roll = true
-	
-	roll_cooldown.start()
+func enter_state():
+	state_name = "Roll"
+	player.debug.text = "Roll"
+	player.roll_direction = -1 if player.facing < 1 else 1
+	player.velocity.x = player.roll_speed
+	player.roll_cooldown.start()
 
 func update(_delta):
-	roll()
-
-func _physics_process(_delta: float) -> void:
-	if current_player.velocity.x == 0 and !sprite.is_playing():
-		current_player.change_state("idle")
-
-func exit():
+	player.pause_game()
+	player.apply_gravity(_delta)
+	handle_roll()
+	player.handle_roll()
+	handle_animation()
+	
+func _physics_process(_delta):
 	pass
 
-func roll():
-	if not can_roll:
-		return
-		
-	can_roll = false
-	
-	# Sprite management
-	sprite.play("roll")
-	current_player.velocity.x = speed * roll_velocity * (-1 if sprite.flip_h else 1)
+func handle_roll():
+	player.velocity.x = player.roll_speed * player.roll_direction
 
-	roll_cooldown.start()
+func handle_animation():
+	player.sprite.play("roll")
+	player.handle_flip()
 
-func _on_timer_timeout() -> void:
-	can_roll = true
-	current_player.change_state("idle")
+func draw():
+	pass
+
+func exit_state():
+	pass
+
+func _on_roll_cooldown_timeout() -> void:
+	player.change_state(player.fsm.fall)
