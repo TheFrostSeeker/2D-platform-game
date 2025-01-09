@@ -15,11 +15,11 @@ func _physics_process(_delta):
 	pass
 
 func handle_animation():
-	player.sprite.play("fall")
+	player.animation.play("fall")
 	player.handle_flip()
 
 func draw():
 	pass
 
 func exit_state():
-	pass
+	player.handle_counter_reset()

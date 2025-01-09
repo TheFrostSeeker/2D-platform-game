@@ -2,41 +2,52 @@ extends CharacterBody2D
 
 #region Player variables
 # Nodes
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var animation: AnimationPlayer = $AnimationPlayer
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @onready var fsm: FiniteStateMachine = $FiniteStateMachine
 @onready var debug: Label = $debug
-@onready var roll_cooldown: Timer = $FiniteStateMachine/Roll/RollCooldown
+@onready var dash_cooldown: Timer = $FiniteStateMachine/Dash/DashCooldown
+@onready var first_attack_cooldown: Timer = $FiniteStateMachine/Attack/FirstAttackCooldown
 
-# Physics  var
+# Physics var
 @export var acceleration: int = 30
 @export var deceleration: int = 25
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var move_direction_x: float = 0
 var facing: int = 1
+var direction: int = 1
 var pause: int = 0
 
-# Run const
+# Run var
 @export var run_speed: float = 150
 
-# Jump consts
+# Jump var
 @export var jump_speed: int = -300
 @export var max_jumps: int = 1
-var jumps: int = 0
+var jump_number: int = 0
+var jump_active: bool = false
 
-# Roll consts
-@export var max_rolls: int = 1
-var roll_speed: float = run_speed * 1.5
-var rolls: int = 0
-var roll_direction: int = 1
+# Dash var
+@export var max_dash: int = 1
+var dash_speed: float = run_speed * 1.5
+var dash_number: int = 0
+var dash_active: bool = false
+
+# Attack var
+@export var attack_damage: int = 1
+var attack_number: int = 0
+var max_attack: int = 1
+var attack_active: bool = false
 
 # Inputs variables
 var key_left: bool = false
 var key_right: bool = false
 var key_jump: bool = false
 var key_jump_pressed: bool = false
-var key_roll: bool = false
+var key_dash: bool = false
 var key_pause: bool = false
+var key_attack: bool = false
 
 # Finite State Machine
 var fsm_current_state: State = null
@@ -81,8 +92,9 @@ func get_input_states():
 	key_right = Input.is_action_pressed("move_right")
 	key_jump = Input.is_action_pressed("jump")
 	key_jump_pressed = Input.is_action_just_pressed("jump")
-	key_roll = Input.is_action_pressed("roll")
+	key_dash = Input.is_action_pressed("dash")
 	key_pause = Input.is_action_just_pressed("pause")
+	key_attack = Input.is_action_just_pressed("attack")
 	
 	if key_right: facing = 1
 	if key_left: facing = -1
@@ -109,10 +121,10 @@ func pause_game():
 		Engine.time_scale = 1
 	
 func handle_jump():
-	if key_jump_pressed and jumps < max_jumps and is_on_floor():
+	if key_jump_pressed and jump_number < max_jumps and is_on_floor():
 		velocity.y = jump_speed
-		jumps += 1
-		rolls += 1
+		jump_number += 1
+		dash_number += 1
 		change_state(fsm.jump)
 	
 func handle_fall():
@@ -120,18 +132,37 @@ func handle_fall():
 		change_state(fsm.fall)
 	
 func handle_land():
-	jumps = 0
-	rolls = 0
 	if is_on_floor():
 		change_state(fsm.idle) 
 	
-func handle_roll():
-	if key_roll and rolls < max_rolls and is_on_floor():
-		jumps += 1
-		rolls += 1
-		change_state(fsm.roll)
+func handle_counter_reset():
+	jump_number = 0
+	jump_active = false
+	
+	dash_number = 0
+	dash_active = false
+	
+	attack_number = 0
+	attack_active = false
+	
+func handle_dash():
+	if key_dash and dash_number < max_dash and is_on_floor():
+		jump_number += 1
+		dash_number += 1
+		change_state(fsm.dash)
+	
+func handle_attack():
+	if key_attack and attack_number < max_attack and is_on_floor() and not attack_active:
+		attack_number += 1
+		change_state(fsm.attack)
 	
 func handle_flip():
 	sprite.flip_h = facing < 1
+
+func handle_ctrl_flip():
+	if animation.is_playing:
+		pass
+	else:
+		sprite.flip_h = facing < 1
 
 #endregion

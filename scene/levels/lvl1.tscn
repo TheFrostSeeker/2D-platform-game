@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://b30rh2mvrpdkq" path="res://scene/enemies/green_slime.tscn" id="7_6seq3"]
 [ext_resource type="PackedScene" uid="uid://b3dr655s1qm1y" path="res://scene/enemies/red_slime.tscn" id="8_yxhio"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hlcqi"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g1p10"]
 texture = ExtResource("3_mregl")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -171,7 +171,7 @@ texture = ExtResource("3_mregl")
 
 [sub_resource type="TileSet" id="TileSet_5apd6"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_hlcqi")
+sources/0 = SubResource("TileSetAtlasSource_g1p10")
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_7dwqt"]
 distance = -25.0

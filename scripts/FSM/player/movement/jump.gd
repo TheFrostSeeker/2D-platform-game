@@ -3,6 +3,7 @@ class_name PlayerJump extends State
 func enter_state():
 	state_name = "Jump"
 	player.debug.text = "Jump"
+	player.jump_active = true
 	player.velocity.y = player.jump_speed
 
 func update(_delta):
@@ -20,7 +21,7 @@ func handle_jump_to_fall():
 		player.change_state(player.fsm.jump_peak)
 
 func handle_animation():
-	player.sprite.play("jump")
+	player.animation.play("jump")
 	player.handle_flip()
 
 func draw():

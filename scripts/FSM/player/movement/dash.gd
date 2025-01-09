@@ -1,26 +1,27 @@
-class_name PlayerAttack extends State
+class_name PlayerDash extends State
 
 func enter_state():
-	state_name = "Attack"
-	player.debug.text = "Attack"
+	state_name = "Dash"
+	player.debug.text = "Dash"
 	player.direction = -1 if player.facing < 1 else 1
-	player.velocity.x = 0
-	player.first_attack_cooldown.start()
+	player.velocity.x = player.dash_speed
+	player.dash_cooldown.start()
 
 func update(_delta):
 	player.pause_game()
 	player.apply_gravity(_delta)
-	handle_attack()
+	handle_dash()
+	player.handle_dash()
 	handle_animation()
-
+	
 func _physics_process(_delta):
 	pass
 
-func handle_attack():
-	pass
+func handle_dash():
+	player.velocity.x = player.dash_speed * player.direction
 
 func handle_animation():
-	player.animation.play("attack")
+	player.animation.play("dash")
 	player.handle_ctrl_flip()
 
 func draw():
@@ -29,5 +30,5 @@ func draw():
 func exit_state():
 	player.handle_counter_reset()
 
-func _on_first_attack_cooldown_timeout() -> void:
+func _on_dash_cooldown_timeout() -> void:
 	player.change_state(player.fsm.idle)

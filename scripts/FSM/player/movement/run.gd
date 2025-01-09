@@ -8,7 +8,8 @@ func update(_delta):
 	player.pause_game()
 	player.horizontal_movement()
 	player.handle_jump()
-	player.handle_roll()
+	player.handle_dash()
+	player.handle_attack()
 	player.handle_fall()
 	handle_idle()
 	handle_animation()
@@ -21,7 +22,7 @@ func handle_idle():
 		player.change_state(player.fsm.idle)
 
 func handle_animation():
-	player.sprite.play("run")
+	player.animation.play("run")
 	player.handle_flip()
 
 func draw():

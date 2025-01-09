@@ -8,7 +8,8 @@ func update(_delta):
 	player.pause_game()
 	player.handle_fall()
 	player.handle_jump()
-	player.handle_roll()
+	player.handle_dash()
+	player.handle_attack()
 	player.horizontal_movement()
 	if player.move_direction_x != 0:
 		player.change_state(player.fsm.run)
@@ -18,7 +19,7 @@ func _physics_process(_delta):
 	pass
 
 func handle_animation():
-	player.sprite.play("idle")
+	player.animation.play("idle")
 	player.handle_flip()
 
 func draw():
