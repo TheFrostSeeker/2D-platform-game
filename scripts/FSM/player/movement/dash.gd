@@ -3,9 +3,8 @@ class_name PlayerDash extends State
 func enter_state():
 	state_name = "Dash"
 	player.debug.text = "Dash"
-	player.direction = -1 if player.facing < 1 else 1
-	player.velocity.x = player.dash_speed
 	player.dash_cooldown.start()
+	player.velocity.x = player.dash_speed * player.direction
 
 func update(_delta):
 	player.pause_game()
@@ -18,7 +17,10 @@ func _physics_process(_delta):
 	pass
 
 func handle_dash():
-	player.velocity.x = player.dash_speed * player.direction
+	if player.dash_active:
+		player.velocity.x = player.dash_speed * player.direction
+	else:
+		player.change_state(player.fsm.idle)
 
 func handle_animation():
 	player.animation.play("dash")
@@ -28,7 +30,7 @@ func draw():
 	pass
 
 func exit_state():
-	player.handle_counter_reset()
+	pass
 
 func _on_dash_cooldown_timeout() -> void:
-	player.change_state(player.fsm.idle)
+	player.can_dash = true

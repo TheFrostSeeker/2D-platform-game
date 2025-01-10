@@ -7,4 +7,7 @@ class_name FiniteStateMachine extends Node2D
 @onready var jump_peak: PlayerJumpPeak = $JumpPeak
 @onready var fall: PlayerFall = $Fall
 @onready var dash: PlayerDash = $Dash
-@onready var attack: PlayerAttack = $Attack
+@onready var dash_cooldown: Timer = $Dash/DashCooldown
+@onready var attack_1: PlayerAttack = $Attack_1
+@onready var attack_2: PlayerAttack = $Attack_2
+@onready var attack_3: PlayerAttack = $Attack_3

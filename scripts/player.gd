@@ -8,7 +8,6 @@ extends CharacterBody2D
 @onready var fsm: FiniteStateMachine = $FiniteStateMachine
 @onready var debug: Label = $debug
 @onready var dash_cooldown: Timer = $FiniteStateMachine/Dash/DashCooldown
-@onready var first_attack_cooldown: Timer = $FiniteStateMachine/Attack/FirstAttackCooldown
 
 # Physics var
 @export var acceleration: int = 30
@@ -29,15 +28,13 @@ var jump_number: int = 0
 var jump_active: bool = false
 
 # Dash var
-@export var max_dash: int = 1
 var dash_speed: float = run_speed * 1.5
-var dash_number: int = 0
+var can_dash: bool = true
 var dash_active: bool = false
 
 # Attack var
 @export var attack_damage: int = 1
-var attack_number: int = 0
-var max_attack: int = 1
+var can_attack: bool = true
 var attack_active: bool = false
 
 # Inputs variables
@@ -124,7 +121,6 @@ func handle_jump():
 	if key_jump_pressed and jump_number < max_jumps and is_on_floor():
 		velocity.y = jump_speed
 		jump_number += 1
-		dash_number += 1
 		change_state(fsm.jump)
 	
 func handle_fall():
@@ -139,23 +135,23 @@ func handle_counter_reset():
 	jump_number = 0
 	jump_active = false
 	
-	dash_number = 0
-	dash_active = false
-	
-	attack_number = 0
-	attack_active = false
-	
 func handle_dash():
-	if key_dash and dash_number < max_dash and is_on_floor():
-		jump_number += 1
-		dash_number += 1
+	if key_dash and can_dash and is_on_floor():
+		direction = -1 if facing < 1 else 1
+		dash_active = true
+		can_dash = false
 		change_state(fsm.dash)
 	
 func handle_attack():
-	if key_attack and attack_number < max_attack and is_on_floor() and not attack_active:
-		attack_number += 1
-		change_state(fsm.attack)
+	if key_attack and is_on_floor():
+		change_state(fsm.attack_1)
 	
+func end_of_dash():
+	dash_active = false
+	
+func ready_for_attack():
+	can_attack = true
+
 func handle_flip():
 	sprite.flip_h = facing < 1
 

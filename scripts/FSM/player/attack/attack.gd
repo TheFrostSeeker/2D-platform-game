@@ -1,11 +1,19 @@
 class_name PlayerAttack extends State
 
+@export var _animation_player: NodePath
+@export var animation: String
+@export var next_state: Node2D
+
+@onready var animation_player:AnimationPlayer = get_node(_animation_player)
+
+var action_pressed = false
+
 func enter_state():
 	state_name = "Attack"
 	player.debug.text = "Attack"
-	player.direction = -1 if player.facing < 1 else 1
 	player.velocity.x = 0
-	player.first_attack_cooldown.start()
+	player.can_attack = false
+	action_pressed = false
 
 func update(_delta):
 	player.pause_game()
@@ -13,21 +21,18 @@ func update(_delta):
 	handle_attack()
 	handle_animation()
 
-func _physics_process(_delta):
-	pass
-
 func handle_attack():
-	pass
+	if next_state and player.can_attack and player.key_attack:
+		player.change_state(next_state)
+	if not animation_player.is_playing():
+		player.change_state(player.fsm.idle)
 
 func handle_animation():
-	player.animation.play("attack")
+	player.animation.play(animation)
 	player.handle_ctrl_flip()
 
 func draw():
 	pass
 
 func exit_state():
-	player.handle_counter_reset()
-
-func _on_first_attack_cooldown_timeout() -> void:
-	player.change_state(player.fsm.idle)
+	pass

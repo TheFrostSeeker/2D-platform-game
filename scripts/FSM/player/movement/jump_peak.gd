@@ -12,7 +12,7 @@ func _physics_process(_delta):
 	pass
 
 func handle_animation():
-	pass
+	player.animation.play("jump_peak")
 
 func draw():
 	pass
