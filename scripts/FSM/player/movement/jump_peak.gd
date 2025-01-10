@@ -1,8 +1,7 @@
 class_name PlayerJumpPeak extends State
 
 func enter_state():
-	state_name = "JumpPeak"
-	player.debug.text = "JumpPeak"
+	pass
 
 func update(_delta):
 	player.pause_game()

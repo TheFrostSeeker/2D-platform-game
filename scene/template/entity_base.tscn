@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtig4woc0wksh"]
+
+[ext_resource type="PackedScene" uid="uid://blavkkljxwhb8" path="res://scene/template/hurt_box.tscn" id="2_v58cy"]
+[ext_resource type="PackedScene" uid="uid://dmv21yoqs21gx" path="res://scene/template/hit_box.tscn" id="3_c8tkw"]
+
+[node name="EntityBase" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+hframes = 10
+vframes = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="HurtBox" parent="." instance=ExtResource("2_v58cy")]
+
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2(0, -8)
+
+[node name="HitBox" parent="." instance=ExtResource("3_c8tkw")]
+
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+position = Vector2(0, -8)
+
+[editable path="HurtBox"]
+[editable path="HitBox"]

@@ -1,8 +1,7 @@
 class_name PlayerFall extends State
 
 func enter_state():
-	state_name = "Fall"
-	player.debug.text = "Fall"
+	pass
 
 func update(_delta):
 	player.pause_game()

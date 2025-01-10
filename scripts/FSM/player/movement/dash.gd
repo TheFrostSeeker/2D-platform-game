@@ -1,8 +1,6 @@
 class_name PlayerDash extends State
 
 func enter_state():
-	state_name = "Dash"
-	player.debug.text = "Dash"
 	player.dash_cooldown.start()
 	player.velocity.x = player.dash_speed * player.direction
 

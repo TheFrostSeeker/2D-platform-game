@@ -4,10 +4,12 @@ extends CharacterBody2D
 # Nodes
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation: AnimationPlayer = $AnimationPlayer
-@onready var collision: CollisionShape2D = $CollisionShape2D
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var collision: CollisionShape2D = $HurtBox/CollisionShape2D
 @onready var fsm: FiniteStateMachine = $FiniteStateMachine
-@onready var debug: Label = $debug
 @onready var dash_cooldown: Timer = $FiniteStateMachine/Dash/DashCooldown
+@onready var death_timer: Timer = $DeathTimer
+@onready var enemy: CharacterBody2D = $/root/Hub/Enemies/RedSlime
 
 # Physics var
 @export var acceleration: int = 30
@@ -17,6 +19,11 @@ var move_direction_x: float = 0
 var facing: int = 1
 var direction: int = 1
 var pause: int = 0
+
+# Player var
+@export var max_health: int = 50
+@export var health: int = 50
+@export var damage: int = 10
 
 # Run var
 @export var run_speed: float = 150
@@ -36,6 +43,9 @@ var dash_active: bool = false
 @export var attack_damage: int = 1
 var can_attack: bool = true
 var attack_active: bool = false
+
+# Death var
+var is_dying: bool = false
 
 # Inputs variables
 var key_left: bool = false
@@ -79,7 +89,7 @@ func change_state(new_state):
 		fsm_current_state = new_state
 		fsm_previous_state.exit_state()
 		fsm_current_state.enter_state()
-		print("State change from: " + fsm_previous_state.state_name + " to " + fsm_current_state.state_name)
+		#print("State change from: " + fsm_previous_state.state_name + " to " + fsm_current_state.state_name)
 
 #endregion
 
@@ -161,4 +171,22 @@ func handle_ctrl_flip():
 	else:
 		sprite.flip_h = facing < 1
 
+func player_death():
+	if not is_dying:
+		is_dying = true
+		death_timer.start()
+		Engine.time_scale = 0.5
+
+func _on_death_timer_timeout() -> void:
+	Engine.time_scale = 1.0
+	get_tree().reload_current_scene()
+
 #endregion
+
+
+func _on_hit_box_area_entered(body: Node2D) -> void:
+	enemy.health -= damage
+	print("enemy damaged")
+	print(enemy.health + damage)
+	if enemy.health <= 0:
+		enemy.enemy_death()

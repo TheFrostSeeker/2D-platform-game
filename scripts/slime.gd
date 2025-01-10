@@ -7,13 +7,12 @@ var direction = 1
 @onready var ray_cast_right: RayCast2D = $RayCastRight
 @onready var ray_cast_left: RayCast2D = $RayCastLeft
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var killzone: Area2D = $Killzone
-@onready var player: CharacterBody2D = $"."
-@onready var timer: Timer = $Killzone/Timer
+@onready var player: CharacterBody2D = $/root/Hub/Player
+
+@export var damage: int = 5
+@export var health: int = 30
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
-
 
 func _process(delta):
 	if ray_cast_right.is_colliding():
@@ -27,14 +26,12 @@ func _process(delta):
 	velocity.y += gravity * delta
 	move_and_slide()
 
+func enemy_death():
+	queue_free()
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.name == "Player":
-		Engine.time_scale = 0.5
-		body.get_node("CollisionShape2D").queue_free()
-		timer.start()
-
-
-func _on_timer_timeout() -> void:
-	Engine.time_scale = 1.0
-	get_tree().reload_current_scene()
+func _on_hurt_box_area_entered(body: Node2D) -> void:
+	player.health -= damage
+	print("player damaged")
+	print(player.health + damage)
+	if player.health <= 0:
+		player.player_death()

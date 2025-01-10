@@ -1,9 +1,8 @@
-[gd_scene load_steps=31 format=3 uid="uid://bbkxxgf653w77"]
+[gd_scene load_steps=34 format=3 uid="uid://bbkxxgf653w77"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_jxyb5"]
 [ext_resource type="Texture2D" uid="uid://bisvlybn1sp4l" path="res://assets/sprites/player/Attack_1.png" id="2_4opff"]
 [ext_resource type="Texture2D" uid="uid://dh0tbvbf7xvgj" path="res://assets/sprites/player/Idle.png" id="3_23m8x"]
-[ext_resource type="FontFile" uid="uid://b24t7afsssog7" path="res://assets/fonts/PixelOperator8.ttf" id="3_p14ow"]
 [ext_resource type="Script" path="res://scripts/FSM/finite_state_machine.gd" id="4_4gycm"]
 [ext_resource type="Texture2D" uid="uid://ch2ar5mdi2r32" path="res://assets/sprites/player/Run.png" id="4_ul72e"]
 [ext_resource type="Script" path="res://scripts/FSM/player/movement/idle.gd" id="5_q6jhb"]
@@ -18,6 +17,8 @@
 [ext_resource type="Script" path="res://scripts/FSM/player/movement/jump_peak.gd" id="9_o5hl1"]
 [ext_resource type="Script" path="res://scripts/FSM/player/movement/fall.gd" id="10_4awil"]
 [ext_resource type="Script" path="res://scripts/FSM/player/attack/attack.gd" id="18_vggip"]
+[ext_resource type="PackedScene" uid="uid://blavkkljxwhb8" path="res://scene/template/hurt_box.tscn" id="19_nbi07"]
+[ext_resource type="PackedScene" uid="uid://dmv21yoqs21gx" path="res://scene/template/hit_box.tscn" id="20_jxay4"]
 
 [sub_resource type="Animation" id="Animation_xdvcj"]
 length = 0.001
@@ -67,7 +68,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, -8)]
+"values": [Vector2(0, -24)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -79,7 +80,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(2, -3)]
+"values": [Vector2(0, -6)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -92,6 +93,42 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [Vector2i(7, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("HurtBox/CollisionShape2D:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, -6)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("HitBox/CollisionShape2D:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-9, -20)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("HitBox/CollisionShape2D:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.81635]
 }
 
 [sub_resource type="Animation" id="Animation_tbvqd"]
@@ -171,6 +208,42 @@ tracks/5/keys = {
 "args": [],
 "method": &"ready_for_attack"
 }]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("HurtBox/CollisionShape2D:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, -6), Vector2(2, -6), Vector2(1, -6)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("HitBox/CollisionShape2D:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-9, -20), Vector2(15, -3), Vector2(15, -2), Vector2(15, -2), Vector2(10, -4)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("HitBox/CollisionShape2D:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.81635, 1.5708]
 }
 
 [sub_resource type="Animation" id="Animation_sgaod"]
@@ -601,13 +674,21 @@ _data = {
 radius = 4.0
 height = 12.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_so7ed"]
+radius = 4.0
+height = 12.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r2hp1"]
+radius = 2.82707
+height = 14.1354
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 5
-collision_layer = 3
+collision_mask = 7
 script = ExtResource("1_jxyb5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -8)
+position = Vector2(0, -24)
 texture = ExtResource("2_4opff")
 hframes = 4
 
@@ -618,20 +699,8 @@ libraries = {
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2, -3)
+position = Vector2(0, -6)
 shape = SubResource("CapsuleShape2D_fn8ms")
-
-[node name="debug" type="Label" parent="."]
-offset_left = -13.0
-offset_top = -28.0
-offset_right = 13.0
-offset_bottom = -18.0
-theme_override_fonts/font = ExtResource("3_p14ow")
-theme_override_font_sizes/font_size = 8
-text = "Debug"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
 
 [node name="FiniteStateMachine" type="Node2D" parent="."]
 script = ExtResource("4_4gycm")
@@ -676,4 +745,27 @@ script = ExtResource("18_vggip")
 _animation_player = NodePath("../../AnimationPlayer")
 animation = "attack_3"
 
+[node name="HurtBox" parent="." instance=ExtResource("19_nbi07")]
+collision_mask = 6
+
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
+position = Vector2(2, -6)
+shape = SubResource("CapsuleShape2D_so7ed")
+
+[node name="HitBox" parent="." instance=ExtResource("20_jxay4")]
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+position = Vector2(-9, -20)
+rotation = -0.81635
+shape = SubResource("CapsuleShape2D_r2hp1")
+
+[node name="DeathTimer" type="Timer" parent="."]
+wait_time = 0.5
+
 [connection signal="timeout" from="FiniteStateMachine/Dash/DashCooldown" to="FiniteStateMachine/Dash" method="_on_dash_cooldown_timeout"]
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
+
+[editable path="HurtBox"]
+[editable path="HitBox"]

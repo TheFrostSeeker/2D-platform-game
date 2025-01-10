@@ -1,8 +1,6 @@
 class_name PlayerJump extends State
 
 func enter_state():
-	state_name = "Jump"
-	player.debug.text = "Jump"
 	player.jump_active = true
 	player.velocity.y = player.jump_speed
 

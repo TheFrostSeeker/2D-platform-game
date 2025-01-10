@@ -1,9 +1,10 @@
-[gd_scene load_steps=24 format=3 uid="uid://b3dr655s1qm1y"]
+[gd_scene load_steps=26 format=3 uid="uid://b3dr655s1qm1y"]
 
 [ext_resource type="Texture2D" uid="uid://b2w5fir2qep27" path="res://assets/sprites/slime_purple.png" id="1_0h8em"]
 [ext_resource type="Script" path="res://scripts/slime.gd" id="1_yy6sa"]
 [ext_resource type="Texture2D" uid="uid://by5540ndyyl0k" path="res://assets/sprites/slime_green.png" id="2_flk37"]
-[ext_resource type="Script" path="res://scripts/killzone.gd" id="3_0uo1f"]
+[ext_resource type="PackedScene" uid="uid://blavkkljxwhb8" path="res://scene/template/hurt_box.tscn" id="3_r5eb2"]
+[ext_resource type="PackedScene" uid="uid://dmv21yoqs21gx" path="res://scene/template/hit_box.tscn" id="4_s4a3x"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_luxll"]
 atlas = ExtResource("2_flk37")
@@ -141,13 +142,18 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cno1g"]
-size = Vector2(10, 11)
+size = Vector2(10, 12)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pgffo"]
-size = Vector2(14, 13)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e2nlo"]
+size = Vector2(12, 13)
 
-[node name="greenSlime" type="CharacterBody2D" groups=["enemy"]]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7dpdp"]
+size = Vector2(10, 12)
+
+[node name="RedSlime" type="CharacterBody2D" groups=["enemy"]]
 z_index = 4
+collision_layer = 4
+collision_mask = 5
 script = ExtResource("1_yy6sa")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -157,7 +163,7 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -6.5)
+position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_cno1g")
 
 [node name="RayCastRight" type="RayCast2D" parent="."]
@@ -168,15 +174,21 @@ target_position = Vector2(6, 0)
 position = Vector2(0, -7)
 target_position = Vector2(-6, 0)
 
-[node name="Killzone" type="Area2D" parent="."]
-script = ExtResource("3_0uo1f")
+[node name="HurtBox" parent="." instance=ExtResource("3_r5eb2")]
+collision_layer = 4
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Killzone"]
+[node name="CollisionShape2D" parent="HurtBox" index="0"]
 position = Vector2(0, -6.5)
-shape = SubResource("RectangleShape2D_pgffo")
+shape = SubResource("RectangleShape2D_e2nlo")
 
-[node name="Timer" type="Timer" parent="Killzone"]
-wait_time = 0.6
+[node name="HitBox" parent="." instance=ExtResource("4_s4a3x")]
+collision_layer = 4
 
-[connection signal="body_entered" from="Killzone" to="." method="_on_area_2d_body_entered"]
-[connection signal="timeout" from="Killzone/Timer" to="." method="_on_timer_timeout"]
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_7dpdp")
+
+[connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
+
+[editable path="HurtBox"]
+[editable path="HitBox"]

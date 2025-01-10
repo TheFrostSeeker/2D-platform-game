@@ -9,8 +9,6 @@ class_name PlayerAttack extends State
 var action_pressed = false
 
 func enter_state():
-	state_name = "Attack"
-	player.debug.text = "Attack"
 	player.velocity.x = 0
 	player.can_attack = false
 	action_pressed = false

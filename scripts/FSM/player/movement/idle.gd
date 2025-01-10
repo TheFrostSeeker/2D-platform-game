@@ -1,8 +1,7 @@
 class_name PlayerIdle extends State
 
 func enter_state():
-	state_name = "Idle"
-	player.debug.text = "Idle"
+	pass
 
 func update(_delta):
 	player.pause_game()
